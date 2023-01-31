@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-primary">
-  <a class="navbar-brand" href="/">
+  <a class="navbar-brand">
     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="30" fill="currentColor" class="bi bi-wallet"
       viewBox="0 0 16 16">
       <path
@@ -7,11 +7,10 @@
     </svg>
   </a>
 
-  <div class="row">
-    <div *ngIf="bool == false" class="input-group mb-3">
+  <div class="col-md-2 d-flex justify-content-center">
+    <div *ngIf="bool == false" class="input-group">
       <span class="input-group-text">$</span>
       <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [(ngModel)]="sueldo">
-      <span class="input-group-text">.00</span>
       <button (click)="addOrEditSueldo(true)" class="btn btn-light">Agregar</button>
     </div>
     <h3 *ngIf="bool == true"><span class="badge bg-primary">{{sueldo | currency}}</span>
