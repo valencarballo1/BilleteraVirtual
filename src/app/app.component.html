@@ -1,0 +1,76 @@
+<nav class="navbar navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="30" fill="currentColor" class="bi bi-wallet"
+      viewBox="0 0 16 16">
+      <path
+        d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z" />
+    </svg>
+  </a>
+
+  <div class="row">
+    <div *ngIf="bool == false" class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" [(ngModel)]="sueldo">
+      <span class="input-group-text">.00</span>
+      <button (click)="addOrEditSueldo(true)" class="btn btn-light">Agregar</button>
+    </div>
+    <h3 *ngIf="bool == true"><span class="badge bg-primary">{{sueldo | currency}}</span>
+      <button *ngIf="bool == true" (click)="addOrEditSueldo(false)" class="btn btn-light">Editar</button>
+    </h3>
+
+  </div>
+</nav>
+
+<div class="container d-flex justify-content-center">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="card">
+        <div class="card-header text-center">
+          GASTOS MENSUALES
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li *ngFor="let employee of employeeArray" class="list-group-item list-group-item-action"
+              (click)="openForEdit(employee)" [class.active]="employee == selectedEmployee">
+              <span class="badge text-bg-primary">{{employee.id}}</span>
+              {{today | date:'dd-MM-yyyy'}}
+              -
+              {{employee.name}}
+              -
+              {{employee.cantidad | currency}}
+            </li>
+            <span>El total de los gastos mensuales es de: {{getTotal() | currency}}</span>
+            <span *ngIf="bool == true">El sueldo mensual restante es de: {{getDiferencia() | currency}}</span>
+          </ul>
+        </div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-header text-center">
+          NUEVO GASTO
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <input type="text" [(ngModel)]="selectedEmployee.name" placeholder="Ingresar gasto" class="form-control">
+            <input type="text" [(ngModel)]="selectedEmployee.cantidad" placeholder="Ingresar monto"
+              class="form-control mt-2">
+            <button (click)="addOrEdit()" class="btn btn-primary mt-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-plus"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z" />
+                <path
+                  d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
+              </svg>
+            </button>
+            <button *ngIf="selectedEmployee.id !== 0" class="btn btn-danger mt-2 ms-1" (click)="delete()">
+              Delete
+            </button>
+            <button *ngIf="employeeArray.length >= 1" class="btn btn-danger mt-2 ms-1" (click)="deleteAll()">
+              Delete All
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
